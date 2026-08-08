@@ -3,10 +3,10 @@
 | รายการ | ข้อมูล |
 |---|---|
 | รายวิชา | ENGSE203 การเขียนโปรแกรมสำหรับวิศวกรซอฟต์แวร์ |
-| รหัสนักศึกษา | STUDENT-ID |
-| ชื่อ-นามสกุล | ชื่อ-นามสกุล |
-| Section | SEC-X |
-| GitHub Username | GITHUB-USERNAME |
-| Repository | `engse203-student-labs-STUDENT-ID` |
-
-> ไฟล์นี้จะถูกปรับข้อมูลเมื่อรัน `npm run setup`
+| รหัสนักศึกษา | 68543210008 |
+| ชื่อ-นามสกุล | Natthaphon Saewang |
+| Section | SEC1 |
+| GitHub Username | arpao007 |
+| Repository | `engse203-student-labs-68543210008` |
+| Mode | `migration` |
+| Pages Hub | https://arpao007.github.io/engse203-student-labs-68543210008/ |
