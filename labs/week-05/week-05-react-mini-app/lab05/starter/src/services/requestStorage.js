@@ -53,7 +53,39 @@ function validateRequests(requests) {
  * ห้าม throw ออกไปจากฟังก์ชันนี้ เพราะจะทำให้หน้าจอพังทั้งหน้า
  */
 export function readStoredRequests() {
-  throw new Error('TODO 5B-A: readStoredRequests');
+  const raw = localStorage.getItem(STORAGE_KEY);
+
+  if (raw === null) {
+    return { status: 'missing' };
+  }
+
+  try {
+    const data = JSON.parse(raw);
+
+    if (data.schemaVersion !== SCHEMA_VERSION) {
+      return {
+        status: 'invalid',
+        reason: 'schema version mismatch',
+      };
+    }
+
+    if (!validateRequests(data.requests)) {
+      return {
+        status: 'invalid',
+        reason: 'invalid requests',
+      };
+    }
+
+    return {
+      status: 'valid',
+      requests: structuredClone(data.requests),
+    };
+  } catch {
+    return {
+      status: 'invalid',
+      reason: 'invalid json',
+    };
+  }
 }
 
 /**
@@ -65,8 +97,20 @@ export function readStoredRequests() {
  *   3. อย่าลืมว่าที่เก็บรับได้แต่ข้อความ
  */
 export function writeStoredRequests(requests) {
-  void requests;
-  throw new Error('TODO 5B-B: writeStoredRequests');
+  if (!validateRequests(requests)) {
+    throw new Error('ข้อมูลคำร้องไม่ถูกต้อง');
+  }
+
+  const envelope = {
+    schemaVersion: SCHEMA_VERSION,
+    updatedAt: new Date().toISOString(),
+    requests: structuredClone(requests),
+  };
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(envelope)
+  );
 }
 
 /**
