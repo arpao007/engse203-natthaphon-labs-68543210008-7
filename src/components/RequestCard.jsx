@@ -28,34 +28,48 @@ function RequestCard({
         </p>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: '10px',
-          marginTop: '10px',
-        }}
-      >
-        <button
-          className="button danger"
-          type="button"
-          onClick={() => onDeleteRequest(request.id)}
-          aria-label={`ลบคำร้อง ${request.id}`}
-          style={{ minWidth: '90px' }}
-        >
-          ลบ
-        </button>
+<div
+  style={{
+    display: 'flex',
+    gap: '12px',
+    marginTop: '12px',
+    alignItems: 'center',
+  }}
+>
+  <button
+    className="button danger"
+    type="button"
+    onClick={() => onDeleteRequest(request.id)}
+    aria-label={`ลบคำร้อง ${request.id}`}
+    style={{
+      width: '100px',
+      height: '40px',
+    }}
+  >
+    ลบ
+  </button>
 
-        {request.status !== 'completed' && (
-          <button
-            className="button primary"
-            type="button"
-            onClick={() => onMarkDone(request.id)}
-            style={{ minWidth: '90px' }}
-          >
-            ทำเสร็จ
-          </button>
-        )}
-      </div>
+  {request.status !== 'completed' ? (
+    <button
+      className="button primary"
+      type="button"
+      onClick={() => onMarkDone(request.id)}
+      style={{
+        width: '100px',
+        height: '40px',
+      }}
+    >
+      ทำเสร็จ
+    </button>
+  ) : (
+    <div
+      style={{
+        width: '100px',
+        height: '40px',
+      }}
+    />
+  )}
+</div>
     </article>
   );
 }
