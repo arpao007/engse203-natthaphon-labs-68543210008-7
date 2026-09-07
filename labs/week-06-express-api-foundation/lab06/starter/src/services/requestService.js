@@ -18,7 +18,8 @@ export async function loadSeed() {
  * TODO W06-S1b (⭐ Challenge) · ถ้ามี options.status ให้กรองเฉพาะสถานะนั้น
  */
 export function findAll({ status } = {}) {
-  throw new Error('TODO W06-S1: findAll');
+  if (!status) return structuredClone(requests);
+  return structuredClone(requests.filter((r) => r.status === status));
 }
 
 /**
@@ -26,7 +27,8 @@ export function findAll({ status } = {}) {
  * - ถ้าไม่พบให้คืน null (ห้าม throw — controller จะเป็นคนตัดสินว่าตอบ 404)
  */
 export function findById(id) {
-  throw new Error('TODO W06-S2: findById');
+  const found = requests.find((r) => r.id === id);
+  return found ? structuredClone(found) : null;
 }
 
 /** สร้างรหัสไม่ซ้ำ — ให้มาแล้ว ไม่ต้องแก้ */
@@ -46,7 +48,17 @@ function createId() {
  *        → status เริ่มต้นเป็น 'pending' เสมอ → push เข้า requests → คืนสำเนา
  */
 export function create(input) {
-  throw new Error('TODO W06-S3: create');
+  const newRequest = {
+    id: createId(),
+    requesterName: input.requesterName.trim(),
+    requestType: input.requestType,
+    location: input.location.trim(),
+    details: input.details.trim(),
+    priority: input.priority,
+    status: 'pending',
+  };
+  requests.push(newRequest);
+  return structuredClone(newRequest);
 }
 
 /**
@@ -63,5 +75,7 @@ export function updateStatus(id, status) {
  * - ใช้ .filter() สร้าง array ใหม่ อย่าแก้ array เดิม
  */
 export function remove(id) {
-  throw new Error('TODO W06-S5: remove');
+  const before = requests.length;
+  requests = requests.filter((r) => r.id !== id);
+  return requests.length < before;
 }
