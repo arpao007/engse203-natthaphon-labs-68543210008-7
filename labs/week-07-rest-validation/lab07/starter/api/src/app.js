@@ -1,10 +1,16 @@
 import express from 'express';
+import cors from 'cors';
 import { config } from './config.js';
 import requestRoutes from './routes/requestRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
 export function createApp() {
   const app = express();
+
+  app.use(cors({ origin: config.corsOrigin }));
+  app.use(express.json());
+
+
 
   /**
    * TODO W07-A1 (CP10) · เปิด CORS
@@ -21,8 +27,6 @@ export function createApp() {
    *   prod → morgan('combined')  ละเอียด เหมาะเก็บ log
    * ใช้ config.isProduction ตัดสิน
    */
-
-  app.use(express.json());
 
   app.get('/', (req, res) => {
     res.json({ message: 'Campus Service API is running', version: '2.0.0' });

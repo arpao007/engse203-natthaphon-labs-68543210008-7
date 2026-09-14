@@ -73,8 +73,10 @@ function DashboardPage() {
       setStatusFilter('all');
       setNotice('คืนข้อมูลตัวอย่างเริ่มต้นแล้ว');
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'คืนข้อมูลไม่สำเร็จ');
-    }
+  if (ignore) return;
+  setLoadState('error');
+  setErrorMessage(error.message);   // ใช้ข้อความจาก ApiError
+}
   }
 
   return (
