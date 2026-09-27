@@ -12,14 +12,16 @@
  */
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
 
-/** error ที่รู้ว่ามาจาก API พร้อม status ที่ได้กลับมา — ให้มาแล้ว */
-export class ApiError extends Error {
-  constructor(message, status) {
+class ApiError extends Error {
+  constructor(message, status, details = []) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.details = details;
   }
 }
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function parseError(response) {
   try {
@@ -30,35 +32,46 @@ async function parseError(response) {
   }
 }
 
-/**
- * TODO W07-F2 (CP11) · เรียก API แล้วคืนข้อมูลที่ parse แล้ว
- *
- * ต้องจัดการ 4 กรณี
- *   1. ต่อเซิร์ฟเวอร์ไม่ได้เลย (fetch โยน error) → ApiError status 0
- *      พร้อมข้อความที่บอกผู้ใช้ว่าให้ตรวจว่าเปิด API แล้วหรือยัง
- *   2. ตอบ 4xx/5xx → โยน ApiError(await parseError(response), response.status)
- *   3. ตอบ 204 → คืน null (ไม่มี body ให้ parse)
- *   4. ตอบ 2xx อื่น → คืน response.json()
- *
- * อย่าลืมส่ง header 'Content-Type': 'application/json'
- */
-export async function apiFetch(path, options = {}) {
-  let response;
+export async function apiFetch(endpoint, options = {}, retries = 3, backoff = 500) {
+  const url = `${BASE_URL}${endpoint}`;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  };
+
   try {
-    response = await fetch(`${BASE_URL}${path}`, {
-      headers: { 'Content-Type': 'application/json', ...options.headers },
-      ...options,
-    });
-  } catch {
-    // ① ต่อเซิร์ฟเวอร์ไม่ได้เลย — fetch โยน error
-    throw new ApiError('ติดต่อเซิร์ฟเวอร์ไม่ได้ — ตรวจว่าเปิด API ที่พอร์ต 3001 แล้วหรือยัง', 0);
-  }
+    const response = await fetch(url, config);
 
-  if (!response.ok) {
-    // ② เซิร์ฟเวอร์ตอบ แต่เป็น 4xx/5xx
-    throw new ApiError(await parseError(response), response.status);
-  }
+  if (!response.ok && response.status >= 500 && retries > 0) {
+      await sleep(backoff);
+      return apiFetch(endpoint, options, retries - 1, backoff * 2);
+    }
 
-  if (response.status === 204) return null;   // ③ DELETE สำเร็จ ไม่มี body
-  return response.json();                     // ④ ปกติ
+    if (response.status === 204) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new ApiError(
+        data.error || 'เกิดข้อผิดพลาดจากเซิร์ฟเวอร์',
+        response.status,
+        data.details || []
+      );
+    }
+
+    return data;
+  } catch (error) {
+    if (retries > 0 && (error.name === 'TypeError' || !(error instanceof ApiError))) {
+      await sleep(backoff);
+      return apiFetch(endpoint, options, retries - 1, backoff * 2);
+    }
+    throw error;
+  }
 }
+
+export { ApiError };

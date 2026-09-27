@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 import { config } from './config.js';
 import requestRoutes from './routes/requestRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
@@ -9,17 +10,7 @@ export function createApp() {
 
   app.use(cors({ origin: config.corsOrigin }));
   app.use(express.json());
-
-
-
-  /**
-   * TODO W07-A1 (CP10) · เปิด CORS
-   *   app.use(cors({ origin: config.corsOrigin }))
-   *
-   * ⚠ ต้องอยู่บนสุด ก่อน middleware และ route ทั้งหมด
-   *   เพราะเบราว์เซอร์จะส่ง preflight request (OPTIONS) มาก่อน
-   *   ถ้า CORS อยู่ล่าง preflight จะถูกบล็อกก่อนถึง
-   */
+  app.use(morgan(config.isProduction ? 'combined' : 'dev'));
 
   /**
    * TODO W07-A2 (🏠 CP14) · เปลี่ยน logger เองเป็น morgan

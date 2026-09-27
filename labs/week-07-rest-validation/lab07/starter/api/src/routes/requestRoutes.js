@@ -1,15 +1,19 @@
-import { Router } from 'express';
-import * as controller from '../controllers/requestController.js';
-import { validateRequest } from '../middleware/validateRequest.js';
+import express from 'express';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import {
+  listRequests,
+  getRequest,
+  createRequest,
+  updateRequestStatus,
+  deleteRequest
+} from '../controllers/requestController.js';
 
-const router = Router();
+const router = express.Router();
 
-// route เจาะจงต้องมาก่อน route ที่มี :id เสมอ
-router.get('/', controller.listRequests);
-router.post('/', validateRequest, controller.createRequest);
-router.get('/:id', controller.getRequest);
-router.put('/:id', controller.updateRequestStatus);
-router.delete('/:id', controller.deleteRequest);
-
+router.get('/', listRequests);
+router.get('/:id', getRequest);
+router.post('/', createRequest);
+router.put('/:id', updateRequestStatus);
+router.delete('/:id', deleteRequest);
 
 export default router;
