@@ -187,3 +187,32 @@ cd frontend && npm run dev     # http://localhost:5173
 ```
 
 **ลำดับสำคัญ** — เปิด API ก่อนเสมอ ไม่งั้น frontend จะขึ้นข้อความว่าติดต่อเซิร์ฟเวอร์ไม่ได้
+
+## 🗄️ Data Model & Database Design
+
+### Schema Structure
+
+#### 1. `users` Table
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | รหัสผู้ใช้งาน |
+| `name` | TEXT | NOT NULL | ชื่อ-นามสกุล ผู้ใช้งาน |
+| `department` | TEXT | NOT NULL | แผนก/สาขา |
+| `email` | TEXT | UNIQUE NOT NULL | อีเมล |
+
+#### 2. `requests` Table
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | TEXT | PRIMARY KEY | รหัสคำร้อง (เช่น REQ-001) |
+| `requester_id` | INTEGER | NOT NULL, FOREIGN KEY → `users(id)` | ไอดีผู้แจ้ง |
+| `request_type` | TEXT | NOT NULL | ประเภทคำร้อง |
+| `location` | TEXT | NOT NULL | สถานที่ |
+| `details` | TEXT | NOT NULL | รายละเอียด |
+| `priority` | TEXT | DEFAULT 'normal' | ความสำคัญ |
+| `status` | TEXT | DEFAULT 'pending' | สถานะคำร้อง |
+| `created_at` | DATETIME | DEFAULT CURRENT_TIMESTAMP | วันเวลาที่สร้าง |
+
+### ข้อสังเกตเรื่องรูปแบบข้อมูล (Data Structure Notes)
+- **ฐานข้อมูล:** เก็บ `requester_id` (ตัวเลข) เพื่อป้องกันข้อมูลซ้ำซ้อนตามหลัก Normalization
+- **API Response:** ชั้น Service จะทำการ `JOIN` ตาราง `users` เพื่อแปลง `requester_id` กลับมาเป็น `requesterName` (ข้อความ) ส่งให้ Frontend ตาม API Contract
+- **พฤติกรรมของ POST:** หากผู้ใช้ส่ง `requesterName` ใหม่เข้ามาในระบบ ระบบจะทำการสร้างบัญชี User ใหม่ลงตาราง `users` ให้อัตโนมัติ
