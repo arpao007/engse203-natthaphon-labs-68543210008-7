@@ -30,21 +30,54 @@ describe('validateRequestInput — รายละเอียด (ค่าข�
     expect(validateRequestInput(withField({ details: '123456789' }))).toHaveLength(1);
   });
 
-  // 🏫 TODO W12-UNIT (CP45): เพิ่มกรณีจากตาราง TEST_CASES.md ให้ครบ
-  //   - 10 ตัวอักษรพอดี → ผ่าน          ← ค่าขอบ
-  //   - 11 ตัวอักษร → ผ่าน
-  //   - ช่องว่างล้วน → error
-  //   ⚠ ถ้า test ข้อไหน fail อย่าเพิ่งแก้ test — อ่านโค้ดใน validator ก่อน
+  test('10 ตัวอักษร → ผ่าน', () => {
+    expect(validateRequestInput(withField({ details: '1234567890' }))).toEqual([]);
+  });
+
+  test('11 ตัวอักษร → ผ่าน', () => {
+    expect(validateRequestInput(withField({ details: '12345678901' }))).toEqual([]);
+  });
+
+  test('ช่องว่างล้วน → error', () => {
+    expect(validateRequestInput(withField({ details: '          ' }))).toHaveLength(1);
+  });
 });
 
-// 🏫 TODO W12-UNIT (CP45): เพิ่ม describe อื่น ๆ
-//   - ชื่อผู้แจ้ง 1 ตัว / 2 ตัว
-//   - ประเภทคำร้องนอกรายการ · priority "high"
-//   - input ผิดรูปแบบ (null · array · ตัวเลข)  ← ลองใช้ test.each([...])
-//   - isValidStatus('pending') / isValidStatus('done')
+describe('validateRequestInput — requesterName', () => {
+  test('1 ตัวอักษร → error', () => {
+    expect(validateRequestInput(withField({ requesterName: 'ก' }))).toHaveLength(1);
+  });
+
+  test('2 ตัวอักษร → ผ่าน', () => {
+    expect(validateRequestInput(withField({ requesterName: 'กา' }))).toEqual([]);
+  });
+});
+
+describe('validateRequestInput — invalid values', () => {
+  test('priority high → error', () => {
+    expect(validateRequestInput(withField({ priority: 'high' }))).toHaveLength(1);
+  });
+
+  test('requestType ผิด → error', () => {
+    expect(validateRequestInput(withField({ requestType: 'test' }))).toHaveLength(1);
+  });
+
+  test.each([null, undefined, 123, []])(
+    'input %p → error',
+    (input) => {
+      expect(validateRequestInput(input)).toEqual([
+        'ต้องส่งข้อมูลคำร้องมาด้วย',
+      ]);
+    }
+  );
+});
 
 describe('isValidStatus', () => {
   test('"pending" → true', () => {
     expect(isValidStatus('pending')).toBe(true);
+  });
+
+  test('"done" → false', () => {
+    expect(isValidStatus('done')).toBe(false);
   });
 });

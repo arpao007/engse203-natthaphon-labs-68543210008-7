@@ -6,6 +6,13 @@ describe('summarizeRequests', () => {
     expect(summarizeRequests([])).toEqual({ total: 0, pending: 0, inProgress: 0, completed: 0 });
   });
 
-  // 🏫 TODO W12-DEBUG (CP47 · BUG #2): เพิ่ม test ที่ใช้ข้อมูลหน้าตาเดียวกับที่ API ส่งมา
-  //   เปิด DevTools → Network → GET /api/requests → ดูค่า status จริง แล้วคัดลอกมาใช้
+test('นับ in-progress ได้ถูกต้อง', () => {
+  const result = summarizeRequests([
+    { status: 'in-progress' },
+    { status: 'in-progress' },
+    { status: 'completed' },
+  ]);
+
+  expect(result.inProgress).toBe(2);
+  });
 });
