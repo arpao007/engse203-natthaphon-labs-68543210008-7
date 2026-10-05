@@ -1,19 +1,52 @@
-import { describe, test, expect, beforeEach } from 'vitest';
+import { describe, test, expect, beforeEach, vi } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../../src/app.js';
+import { AppError, errorHandler } from '../../src/middleware/errorHandler.js';
 import { loadSeed } from '../../src/services/requestService.js';
+import { AppError, errorHandler } from '../../src/middleware/errorHandler.js';
 
-/**
- * Integration test — ยิง HTTP จริงผ่านทุกชั้น: route → controller → service → SQLite
- *
- * ย้ายมาจาก tests/api.test.js ของสัปดาห์ 10 (node:test → Vitest)
- *   assert.equal(a, b)  →  expect(a).toBe(b)
- *   assert.ok(x)        →  expect(x).toBe(true)
- *   before(...)         →  beforeEach(...)   ← ฐานข้อมูลใหม่ทุกข้อ
- *
- * vitest.config.js ตั้ง DB_FILE=':memory:' ไว้แล้ว
- * → loadSeed() ทุกครั้งได้ฐานข้อมูลใหม่ในหน่วยความจำ (5 รายการ) ไม่แตะ campus.db
- */
+describe('Error handler coverage', () => {
+  test('AppError -> ส่ง status และ message', () => {
+    const err = new AppError('ทดสอบ', 400);
+
+    const res = {
+      statusCode: 0,
+      jsonBody: null,
+      status(code) {
+        this.statusCode = code;
+        return this;
+      },
+      json(body) {
+        this.jsonBody = body;
+      },
+    };
+
+    errorHandler(err, {}, res, () => {});
+
+    expect(res.statusCode).toBe(400);
+    expect(res.jsonBody.error).toBe('ทดสอบ');
+  });
+
+  test('Error ปกติ -> 500', () => {
+    const err = new Error('boom');
+
+    const res = {
+      statusCode: 0,
+      jsonBody: null,
+      status(code) {
+        this.statusCode = code;
+        return this;
+      },
+      json(body) {
+        this.jsonBody = body;
+      },
+    };
+
+    errorHandler(err, {}, res, () => {});
+
+    expect(res.statusCode).toBe(500);
+  });
+});
 
 const app = createApp();
 beforeEach(async () => { await loadSeed(); });
@@ -162,10 +195,10 @@ describe('Additional coverage', () => {
     expect(Array.isArray(r.body)).toBe(true);
   });
 
-  test('GET /api/nope -> 404', async () => {
-    const r = await request(app).get('/api/nope');
+test('GET /api/nope -> 404', async () => {
+  const r = await request(app).get('/api/nope');
 
-    expect(r.status).toBe(404);
-    expect(r.body).toHaveProperty('error');
-  });
+  expect(r.status).toBe(404);
+  expect(r.body).toHaveProperty('error');
+});
 });

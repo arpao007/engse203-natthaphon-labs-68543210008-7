@@ -161,4 +161,6 @@ export function listRequestsByUser(userId) {
     `SELECT r.id, r.request_type AS requestType, r.status
      FROM requests r WHERE r.requester_id = ? ORDER BY r.id`
   ).all(userId);
+
+  
 }

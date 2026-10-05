@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect} from 'vitest';
 import { validateRequestInput, isValidStatus } from '../../src/validators/requestValidator.js';
 
 /**
@@ -80,4 +80,12 @@ describe('isValidStatus', () => {
   test('"done" → false', () => {
     expect(isValidStatus('done')).toBe(false);
   });
+  test('โหลด app ใน production mode', async () => {
+  process.env.NODE_ENV = 'production';
+
+  const fs = await import('node:fs');
+  const { createApp } = await import('../../src/app.js');
+
+  expect(typeof createApp).toBe('function');
+});
 });
