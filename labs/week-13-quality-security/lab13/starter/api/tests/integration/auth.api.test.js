@@ -26,15 +26,27 @@ describe('POST /api/auth/login', () => {
 });
 
 describe('สิทธิ์ของ PUT / DELETE', () => {
-  test('ไม่มี token → 401', async () => {
-    const r = await request(app).put('/api/requests/REQ-001').send({ status: 'completed' });
-    expect(r.status).toBe(401);
-  });
+  test('token ปลอม → 401', async () => {
+  const r = await request(app)
+    .put('/api/requests/REQ-001')
+    .set(
+      'Authorization',
+      `Bearer ${tokenFor('staff', 'not-the-real-secret')}`
+    )
+    .send({ status: 'completed' });
 
-  // 🏫 TODO W13-AUTH (CP51): เพิ่ม
-  //   - token ที่ไม่ใช่เจ้าหน้าที่ → 403      ใช้ tokenFor('requester')
-  //   - token ปลอม (secret อื่น) → 401        ใช้ tokenFor('staff', 'not-the-real-secret')
-  //   - เจ้าหน้าที่ → PUT 200 และ DELETE 204  ใช้ await loginAsStaff(app)
-  //   ⚠ หลังผูก authenticate แล้ว test ของ PUT/DELETE ใน requests.api.test.js จะพัง (401)
-  //     — นั่นคือสัญญาณว่า requirement เปลี่ยน: แก้ test ให้เข้าสู่ระบบก่อน
+  expect(r.status).toBe(401);
+});
+
+test('ไม่ใช่เจ้าหน้าที่ → 403', async () => {
+  const r = await request(app)
+    .put('/api/requests/REQ-001')
+    .set(
+      'Authorization',
+      `Bearer ${tokenFor('requester')}`
+    )
+    .send({ status: 'completed' });
+
+  expect(r.status).toBe(403);
+});
 });

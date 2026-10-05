@@ -5,16 +5,23 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { config } from './config.js';
 import requestRoutes from './routes/requestRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import helmet from 'helmet';
+
 
 export function createApp() {
   const app = express();
 
   // ① CORS — dev ใช้ (frontend 5173 เรียก API 3001 ข้ามพอร์ต)
   //    production ไม่จำเป็น เพราะเว็บกับ API อยู่ origin เดียวกัน แต่ใส่ไว้ไม่เสียหาย
-  app.use(cors({ origin: config.corsOrigin }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
   // ② logging — dev อ่านง่าย · production ละเอียดสำหรับเก็บ log
   // test ไม่ต้อง log ทุกคำขอ — ผลการทดสอบจะได้อ่านง่าย
@@ -22,14 +29,14 @@ export function createApp() {
 
   // ③ อ่าน JSON body
   // 🏫 TODO W13-VALID (CP48): จำกัดขนาด body ไม่เกิน 10kb → express.json({ limit: '10kb' })
-  app.use(express.json());
+  app.use(express.json({ limit: '10kb' }));
 
   // ④ route ของ API — ทุกอย่างอยู่ใต้ /api
   app.get('/api', (req, res) => {
     res.json({ message: 'Campus Service API is running', version: '3.0.0' });
   });
   app.use('/api/health', healthRoutes);
-  // 🏫 TODO W13-LOGIN (CP50): import authRoutes แล้วผูกที่ /api/auth
+  app.use('/api/auth', authRoutes);
   app.use('/api/requests', requestRoutes);
   app.use('/api/users', userRoutes);
 

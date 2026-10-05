@@ -17,6 +17,10 @@ export const REQUEST_TYPES = ['แจ้งซ่อม', 'บริการบ
 export const PRIORITIES = ['normal', 'urgent'];
 export const STATUSES = ['pending', 'in-progress', 'completed'];
 
+export const MAX_NAME = 100;
+export const MAX_LOCATION = 100;
+export const MAX_DETAILS = 1000;
+
 export const MIN_NAME = 2;
 export const MIN_DETAILS = 10;
 
@@ -30,21 +34,57 @@ export function validateRequestInput(input) {
   }
 
   const errors = [];
-  if (readText(input.requesterName).length < MIN_NAME) {
-    errors.push(`ชื่อผู้แจ้งต้องมีอย่างน้อย ${MIN_NAME} ตัวอักษร`);
+
+  if (typeof input.requesterName !== 'string') {
+    errors.push('ชื่อผู้แจ้งต้องเป็นข้อความ');
+  } else {
+    const name = readText(input.requesterName);
+
+    if (name.length < MIN_NAME) {
+      errors.push(`ชื่อผู้แจ้งต้องมีอย่างน้อย ${MIN_NAME} ตัวอักษร`);
+    }
+
+    if (name.length > MAX_NAME) {
+      errors.push(`ชื่อผู้แจ้งต้องไม่เกิน ${MAX_NAME} ตัวอักษร`);
+    }
   }
+
   if (!REQUEST_TYPES.includes(input.requestType)) {
     errors.push('ประเภทคำร้องไม่ถูกต้อง');
   }
-  if (!readText(input.location)) {
-    errors.push('กรุณาระบุสถานที่');
+
+  if (typeof input.location !== 'string') {
+    errors.push('สถานที่ต้องเป็นข้อความ');
+  } else {
+    const location = readText(input.location);
+
+    if (!location) {
+      errors.push('กรุณาระบุสถานที่');
+    }
+
+    if (location.length > MAX_LOCATION) {
+      errors.push(`สถานที่ต้องไม่เกิน ${MAX_LOCATION} ตัวอักษร`);
+    }
   }
-  if (readText(input.details).length < MIN_DETAILS) {
-    errors.push(`รายละเอียดต้องมีอย่างน้อย ${MIN_DETAILS} ตัวอักษร`);
+
+  if (typeof input.details !== 'string') {
+    errors.push('รายละเอียดต้องเป็นข้อความ');
+  } else {
+    const details = readText(input.details);
+
+    if (details.length < MIN_DETAILS) {
+      errors.push(`รายละเอียดต้องมีอย่างน้อย ${MIN_DETAILS} ตัวอักษร`);
+    }
+
+    if (details.length > MAX_DETAILS) {
+      errors.push(`รายละเอียดต้องไม่เกิน ${MAX_DETAILS} ตัวอักษร`);
+    }
   }
+
   if (!PRIORITIES.includes(input.priority)) {
     errors.push('ความเร่งด่วนต้องเป็น normal หรือ urgent');
   }
+
   return errors;
 }
 

@@ -75,3 +75,42 @@ describe('isValidStatus', () => {
     expect(isValidStatus(s)).toBe(false);
   });
 });
+test('ชื่อ 100 ตัว → ผ่าน', () => {
+  expect(
+    validateRequestInput(
+      withField({ requesterName: 'ก'.repeat(100) })
+    )
+  ).toEqual([]);
+});
+
+test('ชื่อ 101 ตัว → ไม่ผ่าน', () => {
+  expect(
+    validateRequestInput(
+      withField({ requesterName: 'ก'.repeat(101) })
+    )
+  ).not.toEqual([]);
+});
+
+test('รายละเอียด 1000 ตัว → ผ่าน', () => {
+  expect(
+    validateRequestInput(
+      withField({ details: 'ก'.repeat(1000) })
+    )
+  ).toEqual([]);
+});
+
+test('รายละเอียด 1001 ตัว → ไม่ผ่าน', () => {
+  expect(
+    validateRequestInput(
+      withField({ details: 'ก'.repeat(1001) })
+    )
+  ).not.toEqual([]);
+});
+
+test('สถานที่ 101 ตัว → ไม่ผ่าน', () => {
+  expect(
+    validateRequestInput(
+      withField({ location: 'ก'.repeat(101) })
+    )
+  ).not.toEqual([]);
+});
