@@ -15,6 +15,7 @@ import helmet from 'helmet';
 export function createApp() {
   const app = express();
 
+  app.use(cors({ origin: config.corsOrigin }));
   // ① CORS — dev ใช้ (frontend 5173 เรียก API 3001 ข้ามพอร์ต)
   //    production ไม่จำเป็น เพราะเว็บกับ API อยู่ origin เดียวกัน แต่ใส่ไว้ไม่เสียหาย
 app.use(
