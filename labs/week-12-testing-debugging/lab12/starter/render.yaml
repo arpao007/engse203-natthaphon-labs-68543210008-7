@@ -1,0 +1,37 @@
+name: Week 12 Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: labs/week-12-testing-debugging/lab12/starter
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install API dependencies
+        run: npm install --prefix api
+
+      - name: Install Frontend dependencies
+        run: npm install --prefix frontend
+
+      - name: Run API tests
+        run: npm test --prefix api
+
+      - name: Run Frontend tests
+        run: npm test --prefix frontend
+
+      - name: Run Coverage
+        run: npm run coverage --prefix api
