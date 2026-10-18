@@ -29,7 +29,7 @@
     "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-02/",
     "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-02/labs/week-02/source",
     "hasPublish": true,
-    "sourceEntries": 1
+    "sourceEntries": 0
   },
   {
     "week": "week-03",
@@ -45,7 +45,7 @@
     "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-03/",
     "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-03/labs/week-03/source",
     "hasPublish": true,
-    "sourceEntries": 1
+    "sourceEntries": 0
   },
   {
     "week": "week-04",
@@ -61,7 +61,7 @@
     "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-04/",
     "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-04/labs/week-04/source",
     "hasPublish": true,
-    "sourceEntries": 13
+    "sourceEntries": 12
   },
   {
     "week": "week-05",
@@ -77,6 +77,118 @@
     "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-05/",
     "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-05/labs/week-05/source",
     "hasPublish": true,
-    "sourceEntries": 10
+    "sourceEntries": 8
+  },
+  {
+    "week": "week-06",
+    "title": "Week 06",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-06-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 06",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-06/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-06/labs/week-06/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-07",
+    "title": "Week 07",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-07-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 07",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-07/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-07/labs/week-07/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-09",
+    "title": "Week 09",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-09-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 09",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-09/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-09/labs/week-09/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-10",
+    "title": "Week 10",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-10-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 10",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-10/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-10/labs/week-10/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-11",
+    "title": "Week 11",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-11-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 11",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-11/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-11/labs/week-11/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-12",
+    "title": "Week 12",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-12-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 12",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-12/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-12/labs/week-12/source",
+    "hasPublish": false,
+    "sourceEntries": 0
+  },
+  {
+    "week": "week-13",
+    "title": "Week 13",
+    "status": "submitted",
+    "sourceOrigin": "course-starter",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-13-submission-v1",
+    "testStatus": "pass",
+    "notes": "Week 13",
+    "pageUrl": "https://arpao007.github.io/engse203-natthaphon-labs-68543210008-7/labs/week-13/",
+    "sourceUrl": "https://github.com/arpao007/engse203-natthaphon-labs-68543210008-7/tree/lab/week-13/labs/week-13/source",
+    "hasPublish": false,
+    "sourceEntries": 0
   }
 ]
